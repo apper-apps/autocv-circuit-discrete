@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "name": "Modern Professional",
+    "description": "Clean and modern design perfect for tech professionals",
+    "thumbnail": "/templates/modern-professional.png",
+    "category": "professional",
+    "features": ["ATS-friendly", "Single column", "Accent colors"]
+  },
+  {
+    "Id": 2,
+    "name": "Executive Classic",
+    "description": "Traditional format ideal for senior positions",
+    "thumbnail": "/templates/executive-classic.png",
+    "category": "executive",
+    "features": ["Traditional layout", "Two columns", "Professional fonts"]
+  },
+  {
+    "Id": 3,
+    "name": "Creative Minimalist",
+    "description": "Stylish design for creative professionals",
+    "thumbnail": "/templates/creative-minimalist.png",
+    "category": "creative",
+    "features": ["Minimalist design", "Creative layout", "Visual elements"]
+  }
+]

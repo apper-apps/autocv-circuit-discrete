@@ -1,0 +1,15 @@
+[
+  {
+    "Id": 1,
+    "userId": 3,
+    "jobDescription": "We are looking for a Senior Frontend Developer with 3+ years of experience in React and TypeScript. The ideal candidate should have experience with modern frontend tools, REST APIs, and agile development practices.",
+    "extractedKeywords": {
+      "technicalSkills": ["react", "typescript", "rest api", "agile"],
+      "softSkills": ["teamwork", "problem solving"],
+      "experienceLevel": ["senior"],
+      "yearsRequired": "3+ years of experience",
+      "matchStrength": "medium"
+    },
+    "createdAt": "2024-01-25T10:30:00Z"
+  }
+]

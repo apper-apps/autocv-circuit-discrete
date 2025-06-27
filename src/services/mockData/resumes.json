@@ -1,0 +1,27 @@
+[
+  {
+    "Id": 1,
+    "userId": 3,
+    "jobAnalysisId": 1,
+    "templateId": 1,
+    "title": "Resume - Frontend Developer",
+    "content": {
+      "personalInfo": {
+        "firstName": "Demo",
+        "lastName": "User",
+        "email": "demo@autocv.com",
+        "phone": "(555) 123-4567"
+      },
+      "skills": ["React", "TypeScript", "JavaScript", "HTML/CSS"],
+      "experience": [
+        {
+          "title": "Senior Full Stack Developer",
+          "company": "TechCorp Solutions",
+          "duration": "2022 - Present"
+        }
+      ]
+    },
+    "pdfUrl": "/api/resumes/1/download.pdf",
+    "createdAt": "2024-01-25T14:30:00Z"
+  }
+]
