@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
+import Chart from 'react-apexcharts';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
@@ -11,11 +12,11 @@ import { useAuth } from '@/hooks/useAuth';
 import Loading from '@/components/ui/Loading';
 import Error from '@/components/ui/Error';
 import Empty from '@/components/ui/Empty';
-
 const DashboardPage = () => {
-  const { user } = useAuth();
+const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [resumes, setResumes] = useState([]);
+  const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -23,18 +24,20 @@ const DashboardPage = () => {
     loadDashboardData();
   }, [user]);
 
-  const loadDashboardData = async () => {
+const loadDashboardData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const [profileData, resumeData] = await Promise.all([
+      const [profileData, resumeData, analyticsData] = await Promise.all([
         profileService.getProfile(user.Id),
-        resumeService.getResumes(user.Id)
+        resumeService.getResumes(user.Id),
+        resumeService.getAnalytics(user.Id)
       ]);
       
       setProfile(profileData);
       setResumes(resumeData);
+      setAnalytics(analyticsData);
     } catch (err) {
       setError(err.message);
       toast.error('Failed to load dashboard data');
@@ -57,6 +60,18 @@ const DashboardPage = () => {
     
     const completed = sections.filter(Boolean).length;
     return Math.round((completed / sections.length) * 100);
+};
+
+  const handleDownload = async (resumeId) => {
+    try {
+      await resumeService.trackDownload(resumeId);
+      // Refresh analytics data
+      const analyticsData = await resumeService.getAnalytics(user.Id);
+      setAnalytics(analyticsData);
+      toast.success('Resume downloaded successfully');
+    } catch (err) {
+      toast.error('Failed to download resume');
+    }
   };
 
   if (loading) return <Loading />;
@@ -64,7 +79,6 @@ const DashboardPage = () => {
 
   const profileCompletion = calculateProfileCompletion();
   const recentResumes = resumes.slice(0, 3);
-
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
@@ -275,10 +289,11 @@ const DashboardPage = () => {
                         </p>
                       </div>
                     </div>
-                    <Button
+<Button
                       variant="ghost"
                       size="sm"
                       className="text-primary-600 hover:text-primary-700"
+                      onClick={() => handleDownload(resume.Id)}
                     >
                       <ApperIcon name="Download" size={16} />
                     </Button>
@@ -287,8 +302,181 @@ const DashboardPage = () => {
               </div>
             )}
           </Card>
-        </motion.div>
+</motion.div>
       </div>
+
+      {/* Resume Analytics */}
+      {analytics && analytics.totalResumes > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="space-y-6"
+        >
+          <h2 className="text-2xl font-bold text-secondary-900">Resume Analytics</h2>
+          
+          {/* Analytics Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-secondary-600">Total Downloads</p>
+                  <p className="text-2xl font-bold text-secondary-900">{analytics.totalDownloads}</p>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
+                  <ApperIcon name="Download" size={24} className="text-white" />
+                </div>
+              </div>
+            </Card>
+            
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-secondary-600">Total Views</p>
+                  <p className="text-2xl font-bold text-secondary-900">{analytics.totalViews}</p>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center">
+                  <ApperIcon name="Eye" size={24} className="text-white" />
+                </div>
+              </div>
+            </Card>
+            
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-secondary-600">Avg Downloads</p>
+                  <p className="text-2xl font-bold text-secondary-900">{analytics.averageDownloadsPerResume}</p>
+                  <p className="text-xs text-secondary-500">per resume</p>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <ApperIcon name="TrendingUp" size={24} className="text-white" />
+                </div>
+              </div>
+            </Card>
+            
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-secondary-600">Avg Views</p>
+                  <p className="text-2xl font-bold text-secondary-900">{analytics.averageViewsPerResume}</p>
+                  <p className="text-xs text-secondary-500">per resume</p>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                  <ApperIcon name="BarChart3" size={24} className="text-white" />
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Monthly Trends Chart */}
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Monthly Trends</h3>
+              <Chart
+                options={{
+                  chart: {
+                    type: 'line',
+                    toolbar: { show: false },
+                    fontFamily: 'inherit'
+                  },
+                  colors: ['#3B82F6', '#10B981'],
+                  dataLabels: { enabled: false },
+                  stroke: { curve: 'smooth', width: 3 },
+                  xaxis: {
+                    categories: analytics.monthlyTrends.map(m => m.month),
+                    labels: { style: { colors: '#6B7280' } }
+                  },
+                  yaxis: {
+                    labels: { style: { colors: '#6B7280' } }
+                  },
+                  grid: {
+                    borderColor: '#E5E7EB',
+                    strokeDashArray: 4
+                  },
+                  legend: {
+                    position: 'top',
+                    horizontalAlign: 'right'
+                  },
+                  tooltip: {
+                    shared: true,
+                    intersect: false
+                  }
+                }}
+                series={[
+                  {
+                    name: 'Downloads',
+                    data: analytics.monthlyTrends.map(m => m.downloads)
+                  },
+                  {
+                    name: 'Views',
+                    data: analytics.monthlyTrends.map(m => m.views)
+                  }
+                ]}
+                type="line"
+                height={250}
+              />
+            </Card>
+
+            {/* Resume Performance Chart */}
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Resume Performance</h3>
+              <Chart
+                options={{
+                  chart: {
+                    type: 'bar',
+                    toolbar: { show: false },
+                    fontFamily: 'inherit'
+                  },
+                  colors: ['#8B5CF6', '#F59E0B'],
+                  plotOptions: {
+                    bar: {
+                      horizontal: false,
+                      columnWidth: '55%',
+                      borderRadius: 4
+                    }
+                  },
+                  dataLabels: { enabled: false },
+                  xaxis: {
+                    categories: analytics.resumePerformance.map(r => r.title.substring(0, 15) + '...'),
+                    labels: { 
+                      style: { colors: '#6B7280' },
+                      rotate: -45
+                    }
+                  },
+                  yaxis: {
+                    labels: { style: { colors: '#6B7280' } }
+                  },
+                  grid: {
+                    borderColor: '#E5E7EB',
+                    strokeDashArray: 4
+                  },
+                  legend: {
+                    position: 'top',
+                    horizontalAlign: 'right'
+                  },
+                  tooltip: {
+                    shared: true,
+                    intersect: false
+                  }
+                }}
+                series={[
+                  {
+                    name: 'Downloads',
+                    data: analytics.resumePerformance.map(r => r.downloads)
+                  },
+                  {
+                    name: 'Views',
+                    data: analytics.resumePerformance.map(r => r.views)
+                  }
+                ]}
+                type="bar"
+                height={250}
+              />
+            </Card>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };
