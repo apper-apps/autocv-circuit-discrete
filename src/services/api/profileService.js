@@ -1,4 +1,4 @@
-import { mockProfiles } from '@/services/mockData/profiles.json';
+import { mockProfiles } from '@/services/mockData/profiles';
 
 class ProfileService {
   async getProfile(userId) {

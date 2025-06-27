@@ -1,4 +1,4 @@
-[
+export const mockProfiles = [
   {
     "Id": 1,
     "userId": 3,
@@ -105,4 +105,4 @@
     "createdAt": "2024-01-10T09:00:00Z",
     "updatedAt": "2024-01-25T15:30:00Z"
   }
-]
+];
