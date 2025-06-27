@@ -5,7 +5,19 @@
     "description": "Clean and modern design perfect for tech professionals",
     "thumbnail": "/templates/modern-professional.png",
     "category": "professional",
-    "features": ["ATS-friendly", "Single column", "Accent colors"]
+    "features": ["ATS-friendly", "Single column", "Accent colors"],
+    "colorSchemes": [
+      { "name": "Professional Blue", "primary": "#3B82F6", "secondary": "#1E40AF", "accent": "#EFF6FF" },
+      { "name": "Corporate Gray", "primary": "#6B7280", "secondary": "#374151", "accent": "#F9FAFB" },
+      { "name": "Tech Green", "primary": "#10B981", "secondary": "#047857", "accent": "#ECFDF5" },
+      { "name": "Modern Purple", "primary": "#8B5CF6", "secondary": "#5B21B6", "accent": "#F3E8FF" }
+    ],
+    "fontOptions": [
+      { "name": "Inter", "family": "Inter, sans-serif", "type": "modern" },
+      { "name": "Open Sans", "family": "Open Sans, sans-serif", "type": "clean" },
+      { "name": "Roboto", "family": "Roboto, sans-serif", "type": "professional" },
+      { "name": "Source Sans Pro", "family": "Source Sans Pro, sans-serif", "type": "technical" }
+    ]
   },
   {
     "Id": 2,
@@ -13,7 +25,19 @@
     "description": "Traditional format ideal for senior positions",
     "thumbnail": "/templates/executive-classic.png",
     "category": "executive",
-    "features": ["Traditional layout", "Two columns", "Professional fonts"]
+    "features": ["Traditional layout", "Two columns", "Professional fonts"],
+    "colorSchemes": [
+      { "name": "Executive Navy", "primary": "#1E3A8A", "secondary": "#1E40AF", "accent": "#EFF6FF" },
+      { "name": "Classic Black", "primary": "#111827", "secondary": "#374151", "accent": "#F9FAFB" },
+      { "name": "Burgundy Elite", "primary": "#991B1B", "secondary": "#7F1D1D", "accent": "#FEF2F2" },
+      { "name": "Forest Professional", "primary": "#14532D", "secondary": "#166534", "accent": "#F0FDF4" }
+    ],
+    "fontOptions": [
+      { "name": "Times New Roman", "family": "Times New Roman, serif", "type": "traditional" },
+      { "name": "Georgia", "family": "Georgia, serif", "type": "classic" },
+      { "name": "Playfair Display", "family": "Playfair Display, serif", "type": "elegant" },
+      { "name": "Crimson Text", "family": "Crimson Text, serif", "type": "executive" }
+    ]
   },
   {
     "Id": 3,
@@ -21,6 +45,18 @@
     "description": "Stylish design for creative professionals",
     "thumbnail": "/templates/creative-minimalist.png",
     "category": "creative",
-    "features": ["Minimalist design", "Creative layout", "Visual elements"]
+    "features": ["Minimalist design", "Creative layout", "Visual elements"],
+    "colorSchemes": [
+      { "name": "Creative Orange", "primary": "#EA580C", "secondary": "#C2410C", "accent": "#FFF7ED" },
+      { "name": "Artistic Teal", "primary": "#0D9488", "secondary": "#0F766E", "accent": "#F0FDFA" },
+      { "name": "Designer Pink", "primary": "#EC4899", "secondary": "#BE185D", "accent": "#FDF2F8" },
+      { "name": "Minimal Indigo", "primary": "#4F46E5", "secondary": "#3730A3", "accent": "#EEF2FF" }
+    ],
+    "fontOptions": [
+      { "name": "Poppins", "family": "Poppins, sans-serif", "type": "modern" },
+      { "name": "Montserrat", "family": "Montserrat, sans-serif", "type": "creative" },
+      { "name": "Nunito", "family": "Nunito, sans-serif", "type": "friendly" },
+      { "name": "Work Sans", "family": "Work Sans, sans-serif", "type": "minimal" }
+    ]
   }
 ]
