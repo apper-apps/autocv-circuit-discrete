@@ -1,4 +1,4 @@
-import { mockUsers } from '@/services/mockData/users.json';
+import { mockUsers } from '@/services/mockData/users.js';
 
 class AuthService {
   async login(credentials) {

@@ -1,4 +1,4 @@
-[
+export const mockUsers = [
   {
     "Id": 1,
     "email": "john.doe@example.com",
@@ -23,4 +23,4 @@
     "lastName": "User",
     "createdAt": "2024-01-10T09:00:00Z"
   }
-]
+];
