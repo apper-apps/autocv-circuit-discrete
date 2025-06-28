@@ -1,5 +1,5 @@
-import { mockResumes } from '@/services/mockData/resumes.json';
-import { mockTemplates } from '@/services/mockData/templates.json';
+import mockResumes from '@/services/mockData/resumes.json';
+import mockTemplates from '@/services/mockData/templates.json';
 
 class ResumeService {
   async generateResume(userId, jobAnalysisId, templateId, profileData, customization = null) {
